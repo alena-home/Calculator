@@ -66,12 +66,23 @@ typedef NS_ENUM(NSInteger, Operation) {
     }
 }
 
+- (BOOL)isInteger:(double)number {
+    double temp = floor(number);
+    
+    return (temp == number);
+}
+
 - (void)handleOperation:(Operation)operation {
     [self performPreviousOperation];
     
     previousOperation = operation;
     shouldClear = YES;
-    _inputField.text = [NSString stringWithFormat:@"%f", result];
+    
+    if ([self isInteger:result]) {
+        _inputField.text = [NSString stringWithFormat:@"%ld", (NSInteger)result];
+    } else {
+        _inputField.text = [NSString stringWithFormat:@"%f", result];
+    }
 }
 
 #pragma mark - Button Actions
@@ -116,11 +127,7 @@ typedef NS_ENUM(NSInteger, Operation) {
 }
 
 - (IBAction)equalButtonTapped:(id)sender {
-    [self performPreviousOperation];
-    
-    previousOperation = OperationNone;
-    shouldClear = YES;
-    _inputField.text = [NSString stringWithFormat:@"%f", result];
+    [self handleOperation:OperationNone];
 }
 
 
