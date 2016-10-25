@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, Operation) {
     if ([self isInteger:result]) {
         _inputField.text = [NSString stringWithFormat:@"%ld", (NSInteger)result];
     } else {
-        _inputField.text = [NSString stringWithFormat:@"%f", result];
+        _inputField.text = [NSString stringWithFormat:@"%g", result];
     }
 }
 
