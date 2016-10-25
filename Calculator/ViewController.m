@@ -28,6 +28,8 @@ typedef NS_ENUM(NSInteger, Operation) {
     
     BOOL shouldClear;
     
+    BOOL dotUsed;
+    
     Operation previousOperation;
 }
 
@@ -36,6 +38,7 @@ typedef NS_ENUM(NSInteger, Operation) {
     
     result = 0.0;
     shouldClear = NO;
+    dotUsed = NO;
     previousOperation = OperationNone;
 }
 
@@ -77,6 +80,7 @@ typedef NS_ENUM(NSInteger, Operation) {
     
     previousOperation = operation;
     shouldClear = YES;
+    dotUsed = NO;
     
     if ([self isInteger:result]) {
         _inputField.text = [NSString stringWithFormat:@"%ld", (NSInteger)result];
@@ -116,7 +120,21 @@ typedef NS_ENUM(NSInteger, Operation) {
 }
 
 - (IBAction)dotButtonTapped:(id)sender {
+    if (dotUsed) {
+        return;
+    }
     
+    dotUsed = YES;
+    
+    if (shouldClear) {
+        _inputField.text = @"0.";
+        shouldClear = NO;
+        return;
+    }
+    
+    NSString *currentText = _inputField.text;
+    currentText = [currentText stringByAppendingString:(_inputField.text.length == 0) ? @"0." : @"."];
+    _inputField.text = currentText;
 }
 
 - (IBAction)clearButtonTapped:(id)sender {
