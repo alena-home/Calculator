@@ -99,6 +99,11 @@ typedef NS_ENUM(NSInteger, Operation) {
     
     NSString *currentText = _inputField.text;
     NSInteger digit = ((UIButton *)sender).tag;
+    
+    if (!dotUsed && digit == 0 && [currentText isEqualToString:@"0"]) {
+        return;
+    }
+
     currentText = [currentText stringByAppendingFormat:@"%ld", (long)digit];
     _inputField.text = currentText;
 }
